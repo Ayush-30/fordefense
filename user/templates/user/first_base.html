@@ -20,19 +20,19 @@ body {font-family: Arial, Helvetica, sans-serif;}
 /* Set a style for all buttons */
 
 button {
-  background-color: #4CAF50;
+  background-color: #100549;
   display: inline-block;
-  font-size: 16px;
+  font-size: 20px;
   color: white;
-  padding: 15px 20px;
-  margin: 3px 0;
+  padding: 15px 2px;
+  margin: 1px 0;
   border: none;
   cursor: pointer;
-  border-radius: 50px;
+  border-radius: 8px;
   text-align: center;
   text-decoration: none;
   outline: none;
-  border: none;
+  border-style: outset;
 }
 
 button:hover {
@@ -41,11 +41,60 @@ button:hover {
 
 </style>
 </head>
-<body>
+<body background="{% static 'img/bg.png' %}">
 
-    <img src="{% static 'img/geekhub.png' %}" alt="GeekHub" class="centerlog" style="width:32%"><br><br>
+    <img src="{% static 'img/geekhub.png' %}" alt="GeekHub" class="centerlog" style="width:30%"><br><br>
 {% block content %}
     {% endblock content %}
 
 </body>
 </html>
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--  <title>GeekHub</title>-->
+<!--  <link rel="icon" type="image/png" href="{% static 'img/geekhub.png' %}"/>-->
+<!--<head>-->
+
+<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--<style>-->
+<!--body {font-family: Arial, Helvetica, sans-serif;}-->
+<!--.centerlog {-->
+
+<!--  display: block;-->
+<!--  margin-left: auto;-->
+<!--  margin-right: auto;-->
+<!--  width: auto;-->
+<!--}-->
+
+
+<!--/* Set a style for all buttons */-->
+
+<!--button {-->
+<!--  background-color: #4CAF50;-->
+<!--  display: inline-block;-->
+<!--  font-size: 16px;-->
+<!--  color: white;-->
+<!--  padding: 15px 20px;-->
+<!--  margin: 3px 0;-->
+<!--  border: none;-->
+<!--  cursor: pointer;-->
+<!--  border-radius: 50px;-->
+<!--  text-align: center;-->
+<!--  text-decoration: none;-->
+<!--  outline: none;-->
+<!--  border: none;-->
+<!--}-->
+
+<!--button:hover {-->
+<!--  opacity: 0.9;-->
+<!--}-->
+
+<!--</style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--    <img src="{% static 'img/geekhub.png' %}" alt="GeekHub" class="centerlog" style="width:32%"><br><br>-->
+
+
+<!--</body>-->
+<!--</html>-->

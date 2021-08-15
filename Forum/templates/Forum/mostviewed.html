@@ -1,0 +1,30 @@
+{% extends 'forum/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<body background="{% static 'img/123.png' %}">
+<div id="wrap-subhead">
+	<div class="chunk">
+		<div id="subhead-title">
+            <h3>navbar space</h3>
+		</div>
+	</div>
+</div>
+{% include "forum/message.html" %}
+
+<div class="col-sm-12 text-left">
+	<div id="wrap-body">
+		<div class="chunk-main" >
+
+                <div id="subhead-title" >
+					<h1 class="forum-title" style="margin-bottom: 15mm; color: #51749a;" > Most Viewed</h1>
+                </div>
+        </div>
+				{% include "forum/dashboardcopy.html" %}
+
+
+		{% include "forum/jsfrontend.html" %}
+</body>
+
+{% endblock content %}

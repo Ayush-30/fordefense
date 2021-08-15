@@ -1,24 +1,10 @@
-{% extends "Forum/base.html" %}
+{% extends 'forum/navbar2.html' %}
 {% load static %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-      <title>New Question</title>
-      <link rel="icon" type="image/png" href="{% static 'img/geekhub.png' %}"/>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-     <link href="{% static 'css/library/bootstrapmin.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
-    <link href="{% static 'css/library/stylesheet.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />
-    <link href="{% static 'css/library/colours.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />
-    <link href="{% static 'css/library/lib.css'  %}" rel="stylesheet" type="text/css" media="screen,projection" />
-    <link href="{% static 'css/library/style.css' %}" rel="stylesheet">
-
-</head>
 {% include "forum/message.html" %}
 <body>
- <main id="tt-pageContent">
+ <main id="tt-pageContent" style="padding-top:15px;">
      <div class="POST">
         <div class="container">
             <div class="tt-wrapper-inner">
@@ -28,41 +14,166 @@
                 <form class="form-default form-create-topic" method="POST" id="newquestion">
                     {% csrf_token %}
                     <div class="form-group">
-                        <div class="pt-editor">
+                        <div class="pt-editor" style="padding-top:12px;">
                             <h6 class="pt-title">Question</h6>
 
                             <div class="form-group">
-                                <textarea name="question_content" class="form-control" rows="5" placeholder="Lets get started"></textarea>
+                                <textarea name="question_content" class="form-control" rows="5" placeholder="Lets get started" required="true"></textarea>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Semester</label>
-                                        <select class="form-control" name="question_author_semester">
-                                            <option value="Select">Select</option>
-                                            <option value="Value 01">Semester I</option>
-                                            <option value="Value 01">Semester II</option>
-                                            <option value="Value 01">Semester III</option>
-                                            <option value="Value 01">Semester IV</option>
-                                            <option value="Value 01">Semester V</option>
-                                            <option value="Value 01">Semester VI</option>
-                                            <option value="Value 01">Semester VII</option>
-                                            <option value="Value 01">Semester VIII</option>
+                                        <select class="form-control" name="question_author_semester" required="true">
+                                            <option value="" disabled selected>Select Semester</option>
+                                                    <option value="1st Semester">1st Semester</option>
+                                                    <option value="2nd Semester">2nd Semester</option>
+                                                    <option value="3rd Semester">3rd Semester</option>
+                                                    <option value="4th Semester">4th Semester</option>
+                                                    <option value="5th Semester">5th Semester</option>
+                                                    <option value="6th Semester">6th Semester</option>
+                                                    <option value="7th Semester">7th Semester</option>
+                                                    <option value="8th Semester">8th Semester</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
+
+                                    {% if u_form.semester == "7th Semester" %}
                                     <div class="form-group">
-                                        <label for="inputTopicTags">Subject</label>
-                                            <input type="text" name="question_subject" class="form-control" id="inputTopicTags" placeholder="Enter Subject Name">
+                                        <label>Semester</label>
+                                        <select class="form-control" name="question_subject" required="true">
+                                            <option value="" disabled selected>Subject</option>
+                                                    <option value="Advanced Database Management System">Advanced Database Management System</option>
+                                                    <option value="Database Administration">Database Administration</option>
+                                                    <option value="Project Work">Project Work</option>
+                                                    <option value="Information Retrieval">Information Retrieval</option>
+                                                    <option value="Internet Technology">Internet Technology</option>
+                                                    <option value="Advanced Java Programming">Advanced Java Programming</option>
+                                                    <option value="Network and System Administration">Network and System Administration</option>
+                                                    <option value="Software Project Management">Software Project Management</option>
+
+                                        </select>
                                     </div>
+                                    {% elif u_form.semester == "6th Semester" %}
+                                    <div class="form-group">
+                                        <label>Semester</label>
+                                        <select class="form-control" name="question_subject" required="true">
+                                            <option value="" disabled selected>Subject</option>
+                                                    <option value="Artificial Intelligence">Artificial Intelligence</option>
+                                                    <option value="Augmented Reality">Augmented Reality</option>
+                                                    <option value="Compiler Design and Construction">Compiler Design and Construction</option>
+                                                    <option value="Digital System Design">Digital System Design</option>
+                                                    <option value="Fundamentals of E-Commerce">Fundamentals of E-Commerce</option>
+                                                    <option value="Embedded System Programming">Embedded System Programming</option>
+                                                    <option value="Image Processing">Image Processing</option>
+                                                    <option value="Net Centric Computing">Net Centric Computing</option>
+                                                    <option value="Real Time System">Real Time System</option>
+                                                    <option value="Software Engineering">Software Engineering</option>
+                                                    <option value="Society and Ethics in Information Technology">Society and Ethics in Information Technology</option>
+                                        </select>
+                                    </div>
+                                    {% elif u_form.semester == "5th Semester" %}
+                                    <div class="form-group">
+                                        <label>Semester</label>
+                                        <select class="form-control" name="question_subject" required="true">
+                                            <option value="" disabled selected>Subject</option>
+                                                    <option value="Applied Logic">Applied Logic</option>
+                                                    <option value="Computer Hardware Design">Computer Hardware Design</option>
+                                                    <option value="Computer Network">Computer Network</option>
+                                                    <option value="Introduction to Cryptography">Introduction to Cryptography</option>
+                                                    <option value="Concepts of Wireless Networking">Concepts of Wireless Networking</option>
+                                                    <option value="Design and Analysis of Algorithm">Design and Analysis of Algorithm</option>
+                                                    <option value="E-Governance">E-Governance</option>
+                                                    <option value="International Business Management">International Business Management</option>
+                                                    <option value="International Marketing">International Marketing</option>
+                                                    <option value="Knowledge Management">Knowledge Management</option>
+                                                    <option value="Microprocessor Based Design">Microprocessor Based Design</option>
+
+                                        </select>
+                                    </div>
+                                    {% elif u_form.semester == "4th Semester" %}
+                                    <div class="form-group">
+                                        <label>Semester</label>
+                                        <select class="form-control" name="question_subject" required="true">
+                                            <option value="" disabled selected>Subject</option>
+                                                    <option value="Computer Graphics">Computer Graphics</option>
+                                                    <option value="Database Management System">Database Management System</option>
+                                                    <option value="Introduction to Cognitive Science">Introduction to Cognitive Science</option>
+                                                    <option value="System Analysis and Design">System Analysis and Design</option>
+                                                    <option value="Theory of Computation">Theory of Computation</option>
+                                                    <option value="Technical Writing">Technical Writing</option>
+                                        </select>
+                                    </div>
+                                     {% elif u_form.semester == "3th Semester" %}
+                                     <div class="form-group">
+                                        <label>Semester</label>
+                                        <select class="form-control" name="question_subject" required="true">
+                                            <option value="" disabled selected>Subject</option>
+                                                    <option value="Computer Architecture">Computer Architecture</option>
+                                                    <option value="Introduction to Management">Introduction to Management</option>
+                                                    <option value="Numerical Method">Numerical Method</option>
+                                                    <option value="Object Oriented Programming">Object Oriented Programming</option>
+                                                    <option value="Operating System">Operating System</option>
+                                        </select>
+                                    </div>
+                                    {% elif u_form.semester == "2nd Semester" %}
+                                     <div class="form-group">
+                                        <label>Semester</label>
+                                        <select class="form-control" name="question_subject" required="true">
+                                            <option value="" disabled selected>Subject</option>
+                                                    <option value="Digital Logic">Digital Logic</option>
+                                                    <option value="Discrete Structure">Discrete Structure</option>
+                                                    <option value="Data Structure and Algorithm">Data Structure and Algorithm</option>
+                                                    <option value="Linear Algebra">Linear Algebra</option>
+                                                    <option value="Microprocessor">Microprocessor</option>
+                                                    <option value="Statistics II">Statistics II</option>
+                                        </select>
+                                    </div>
+                                    {% elif u_form.semester == "1st Semester" %}
+                                     <div class="form-group">
+                                        <label>Semester</label>
+                                        <select class="form-control" name="question_subject" required="true">
+                                            <option value="" disabled selected>Subject</option>
+                                                    <option value="Introduction to Information Technology">Introduction to Information Technology</option>
+                                                    <option value="Calculus and Analytical Geometry">Calculus and Analytical Geometry</option>
+                                                    <option value="Statistics I">Statistics I</option>
+                                                    <option value="Fundamentals of Computer Programming">Fundamentals of Computer Programming</option>
+                                                    <option value="Physics I">Physics I</option>
+                                                    <option value="Probability and Statistics">Probability and Statistics</option>
+                                                    <option value="Statistics I">Statistics I</option>
+                                        </select>
+                                    </div>
+                                    {% elif u_form.semester == "8th Semester" %}
+
+                                     <div class="form-group">
+                                        <label>Semester</label>
+                                        <select class="form-control" name="question_subject" required="true">
+                                            <option value="" disabled selected>Subject</option>
+                                                    <option value="Cloud Computing">Cloud Computing</option>
+                                                    <option value="Distributed Networking">Distributed Networking</option>
+                                                    <option value="Design Support System">Design Support System</option>
+                                                    <option value="Data Warehousing and Mining">Data Warehousing and Mining</option>
+                                                    <option value="Geographical Information System">Geographical Information System</option>
+                                                    <option value="Internship">Internship</option>
+                                                    <option value="Advanced Networking with IPv6">Advanced Networking with IPv6</option>
+                                                    <option value="Multimedia Database">Multimedia Database</option>
+                                                    <option value="Network Security">Network Security</option>
+                                        </select>
+                                    </div>
+
+                                    {% endif %}
+<!--                                    <div class="form-group">-->
+<!--                                        <label for="inputTopicTags">Subject</label>-->
+<!--                                            <input type="text" name="question_subject" class="form-control" id="inputTopicTags" placeholder="Enter Subject Name">-->
+<!--                                    </div>-->
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-auto ml-md-auto">
 <!--                                    <a href="{% url 'newquestion' %}" onclick="document.getElementById[newquestion].submit();" class="btn btn-secondary btn-width-lg">-->
 <!--                                    Create Post</a>-->
-                                        <button type="submit" class="button font-icon"  style="width:40%;" >Submit</button>
+                                        <button type="submit" class="button font-icon" style="width:200px;">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -75,9 +186,10 @@
                 </div>
             </div>
 
-            <script src="{% static 'js/bundle.js'%}"></script>
+
         </div>
      </div>
  </body>
 </html>
-{% endblock content %}
+{% include "forum/jsfrontend.html" %}
+{% endblock %}

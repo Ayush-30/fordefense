@@ -1,72 +1,99 @@
 {% extends 'forum/base.html' %}
 {% load static %}
-
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Geekhub</title>
-    <link rel="icon" type="image/png" href="{%static 'img/geekhub.png' %}"/>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{% static 'css/library/bootstrapmin.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
-    <link href="{% static 'css/library/stylesheet.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />
-    <link href="{% static 'css/library/colours.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />
-    <link href="{% static 'css/library/lib.css'  %}" rel="stylesheet" type="text/css" media="screen,projection" />
-    <link href="{% static 'css/library/style.css' %}" rel="stylesheet">
-</head>
-
-<body>
+<style>
+	.user{
+	 text-transform:uppercase;
+	}
+</style>
+<!--<body style="background-color: #A9B6CC;">-->
+<body background="{% static 'img/123.png' %}">
 <div id="wrap-subhead">
 	<div class="chunk">
 		<div id="subhead-title">
-			<h4 class="forum-title"><a href="{% url 'forum' %}">Welcome</a></h4>
+            <h3>navbar space</h3>
 		</div>
 	</div>
 </div>
-<div style="margin-bottom: 15mm;"></div>
+{% include "forum/message.html" %}
+
 <div class="col-sm-12 text-left">
 	<div id="wrap-body">
-		<div class="chunk-main">
+		<div class="chunk-main" >
+
+                <div id="subhead-title" >
+                    <h1 class="forum-title" style="margin-bottom: 15mm; color: #51749a;" > Welcome <span class="user">{{ user }}</span> </h1>
+                </div>
+
+        </div>
 			<div class="forumbg">
 				<div class="inner">
 
-<!--				POST CONTENTS DISPLAY-->
-
-					<ul class="topiclist topics">
+                    <ul class="topiclist topics">
 						<h6>
-							{% for q in q %}
-								<li class="row bg1">
-									<dl class="icon topic_read">
-										<dt title="No unread posts">
-											<div class="list-inner"; style="text-align: center">
-												<a href="viewquestion/{{ q.question_id }}/" class="topictitle">{{ q.question_content }}
-												</a>
-												<br/>
-											</div>
-										</dt>
-										<dd class="posts">{{ q.question_answer_count }}<dfn>Replies</dfn>
-										</dd>
-										<dd class="views">{{ q.question_view_count }}<dfn>Views</dfn>
-										</dd>
-										<dd class="lastpost"><span><dfn>Last post </dfn>
+							<!-- Post haru eta hai -->
+				            <div id="wrap-body">
+                				<div class="chunk-main">
+                    				{% for q in q %}
+                        				<div id="p1" class="post has-profile bg2">
+                            				<div class="inner">
+                                				<dl class="postprofile" id="profile1">
+                                    				<dt class="has-profile-rank no-avatar">
+                                        				{% if q.posted_by.profile.user_image.url %}
+                                            				<img src="{{ q.posted_by.profile.user_image.url }}" alt="User Name" style="width: 40px;height: 40px;">
+                                        				{% else %}
+                                            				<img src="{% static 'img/avatar.jpg' %}" alt="User Name" style="width:100%">
+                                        				{% endif %}
+                                        				<div class="avatar-container">
+                                        				</div>
+                                        				<a href="{% url 'user_profile_display' q.question_id %}" style="color: #AA0000;" class="username-coloured">{{ q.posted_by }}</a>
+                                    				    </dt>
+                                    				<div class="profile-posts">
+                                                        <ul>
+                                                            <li>
+																{{q.posted_by.profile.semester}}
+                                                            </li>
+                                                            <li>
+                                                                 No of posts: <a href="">{{ q.posted_by.profile.number_of_posts }}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                				</dl>
+                                			<div class="postbody">
+                                    			<div id="post_content1">
+<!--                                        			<ul class="posts-buttons">																																			<li>-->
+<!--                                            			<li>-->
+<!--                                                			<a href="#">-->
+<!--                                                    			<i class="fa fa-pencil-square-o" style="font-size: 20px;font-weight: bold;"></i><span>Edit</span>-->
+<!--                                                			</a>-->
+<!--                                            			</li>-->
+<!--                                        			</ul>-->
+                                        			<p class="author">
+														<a href="viewquestion/{{ q.question_id }}/">{{q.question_subject}}</a>,
+														<a href="viewquestion/{{ q.question_id }}/">{{q.question_author_semester}}</a>
+                                        			</p>
+													<a href="viewquestion/{{ q.question_id }}/">
+                                                        <div class="content"><strong>{{q.question_content}}</strong>
+															</a>
+													    <hr>
+																<dd class="views" >{{ q.question_answer_count }}<dfn>Replies</dfn>
+																</dd>
+																<dd class="views" >{{ q.question_view_count }}<dfn>Views</dfn>
+																</dd>
+															<div class="profile-joined" style="font-size:15px; text-align:right;" >Posted: {{ q.date_posted|timesince }} ago</div>
+													</div>
+                                    			</div>
 
-											<div class="avatar">
-												{% if q.posted_by.profile.user_image.url %}
-												<img src="{{ q.posted_by.profile.user_image.url }}" alt="User Name" style="width: 40px;height: 40px;">
-												{% else %}
-												<img src="{% static 'img/default.jpg' %}" alt="User Name" style="width: 40px;height: 40px;">
-												{% endif %}
-											</div>
-											<a href="{% url 'user_profile_display' q.question_id %}" style="color: #AA0000;" class="username-coloured">{{ q.posted_by }}</a>
-											<a href="#" title="Go to last post" class="lastpost-last"><i class="fa fa-arrow-right"></i></a> <br />{{ q.date_posted }}</span>
-										</dd>
-									</dl>
-								</li>
-								<hr>
-							{% endfor %}
+                                			</div>
+                            			</div>
+                        			</div>
+                        			<hr class="divider">
+                    			{% endfor %}
+                			</div>
+							</div>
 						</h6>
 					</ul>
+
 				</div>
 			</div>
 		</div>
@@ -81,10 +108,8 @@
 <!--				<div class="col-sm-12 sidenav">-->
 <!--				  <p><a href="#">Link</a></p>-->
 <!--				</div>-->
-<!--			</div>-->
-<!--		</div>-->
-<!--		<footer class="container-fluid text-center">-->
-<!--		  <p>Footer Text</p>-->
-<!--		</footer>-->
-<script src="{% static 'js/bundle.js'%}"></script>
+
+{% include "forum/jsfrontend.html" %}
+</body>
+
 {% endblock content %}

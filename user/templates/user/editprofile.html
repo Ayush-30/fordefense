@@ -1,138 +1,106 @@
-{% extends "forum/base.html" %}
-{% block content %}
+{% extends 'forum/navbar2.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Add Topic</title>
- <link rel="icon" type="image/png" href="{% static 'img/geekhub.png' %}" />
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="{% static 'css/Edits/style1.css' %}">
-     <link rel="stylesheet" href="{% static 'css/Edits/bootstrap.min.css' %}">
-  <script src="{% static 'js/New folder/bootstrap.min.js' %}"></script>
-  <script src="{% static 'js/New folder/jquery.min.js' %}"></script>
-  <link href="{% static 'css/library/stylesheet.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />
-  <link href="{% static 'css/library/colours.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />
-
-  <style>
-  .spac {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        max-width: 900px;
-        margin: auto;
-        text-align: center;
-        font-family: arial;
-      }
-    /* Remove the navbar's default margin-bottom and rounded borders */
-    .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
-    }
-
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 450px}
-
-    /* Set gray background color and 100% height */
-    .sidenav {
-      padding-top: 20px;
-      background-color: #f1f1f1;
+{% block content %}
+<style>
+    input[type=text],input[type=email],input[type=password]{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+  select{
+      width: 100%;
       height: 100%;
-    }
+      margin: 8px 0;
+      padding: 12px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  }
+button{
+    margin-top: 5px;
+}
+button.button {
+    font-size: 16px;
+    position: relative;
+    width: 35%;
+    height: 45px;
+    margin-top: 25px;
+    left:0;
+}
 
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
-    }
-
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height:auto;}
-    }
-    .brand {
-    max-height: 40px;
-    max-width: 30%;
-    overflow: visible;
-    padding-top: 0;
-    padding-bottom: 0;
-    }
-    .centerlog {
-
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: auto;
-    }
-  </style>
-</head>
+</style>
 <body>
-
-<br>
-<br><br><br><br><br>
-<div class="post">
-     <div action="#" class="form newtopic" method="post" id="At">
-        <div class="topwrap">
-            </div>
-
-                <p style="text-align: center;font-size:24px">
-                    Update Profile
-                </p>
-                <div class="spac">
-                  <p style="text-align: center;">
-                <div class="topwrap">
-
-                    <input type="text" placeholder="Enter User Name" class="form-control" style="font-size: 14px;"/><br>
-                </div>
-                <div>
-                    <input type="text" placeholder="Enter College Name" class="form-control" style="font-size: 14px;"/><br>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 col-md-9" >
-                        <select name="category" id="category"  class="form-control" >
-                            <option value="" disabled selected>Select Semester</option>
-                            <option value="op1">1st Semester</option>
-						              	<option value="op2">2nd Semester</option>
-						              	<option value="op3">3rd Semester</option>
-                            <option value="op4">4th Semester</option>
-                            <option value="op5">5th Semester</option>
-							<option value="op6">6th Semester</option>
-							<option value="op7">7th Semester</option>
-							<option value="op8">8th Semester</option>
-
-                        </select>
-                    </div><br>
-
-                </div>
-                <label for="img">Select image:</label>
-                    <input style="font-size: 16px;" type="file" id="img" name="img" accept="image/*"><br>
-
-
-
-                  </p>
-              </div>
-     </div>
-              <p style="text-align: center">
-                <a href="profedit.html" class="btn btn-info btn-lg">
-                  <span class="glyphicon glyphicon-pencil"></span> Update
-                </a>
-              </p>
-                </form>
-</div>
-
-    <div id="site-footer-area" class="site-footer-forum">
-        <div class="chunk">
-            <div id="foot-copyright" style="text-align: center;">Geekhub</div>
+<div id="wrap-subhead">
+    <div class="chunk">
+        <div id="subhead-title">
+            <h3>navbar space</h3>
         </div>
     </div>
-{% endblock content %}
+</div>
+<div style="margin-bottom: 15mm;"></div>
+<div class="col-sm-12 ">
+    <div id="wrap-body">
+        <div class="chunk-main" >
+           <div id="wrap-subhead" style="margin-bottom: 25px">
+            <div class="chunk">
+                <div id="subhead-title">
+                    <h4 class="forum-title">Edit your profile here</h4>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+ <form action="" class="form newtopic" method="POST" enctype="multipart/form-data" id="At">
+    {% csrf_token %}
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="#">Username</label>
+      {{ u_form.username }}
+    </div>
+    <div class="form-group col-md-6">
+      <label for="#">Email</label>
+      {{ u_form.email }}
+    </div>
+  </div>
+      <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="#">Date of Birth</label>
+        {{ p_form.date_of_birth}}
+    </div>
+    <div class="form-group col-md-6">
+      <label for="#">Contact No.</label>
+      {{ p_form.contact_number}}
+    </div>
 
+  </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+      <label for="#">College</label>
+      {{ p_form.college}}
+        </div>
+        <div class="form group col-md-6">
+        <div class="form-group">
+            <label >Semester</label>
+            {{ p_form.semester}}
+        </div>
+    </div>
+    </div>
+    <div class="form-row">
+        <div class="form group col-md-6">
+              <label for="email"><b>Image</b></label>
+                            {{ p_form.user_image}}
+        </div>
+    </div>
+    <div class="form group col-md-6">
+    <button type="submit" class="button font-icon" location.href='{% url 'profile' %}'">Update</button>
+    </div>
+</form>
+</div>
+{% include "forum/jsfrontend.html" %}
 </body>
-</html>
 
-
+{% endblock content %}

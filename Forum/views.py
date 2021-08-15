@@ -3,6 +3,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
+import re
+
 from django.contrib.auth.views import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
@@ -14,10 +16,11 @@ from sklearn.preprocessing import MinMaxScaler
 from scipy.sparse import csr_matrix
 from .models import *
 from user.models import Profile
-from user.form import Userupdateform
+from user.form import Userupdateform,Userprofileupdate
 from datetime import datetime, timedelta
 import pandas as pd
 from sklearn.neighbors import NearestNeighbors
+from django.utils.crypto import get_random_string
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import sigmoid_kernel
@@ -39,30 +42,56 @@ def forum(request):
     except:
         page = 1
     questions = paginator.get_page(page)
-    context = {'u_form': u_form, 'q': questions}
+    context = {'u_form': u_form, 'q': questions,'user':user}
     return render(request, 'forum/dashboard.html', context)
-
-
-@login_required
-def msort(request):
-    questions = QuestionPost.objects.all().order_by('-question_view_count')
-    context = {'q': questions}
-    return render(request, 'forum/dashboard.html', context)
-
 
 @login_required
 def tsort(request):
-    one_week_ago = datetime.today() - timedelta(days=2)
-    questions = QuestionPost.objects.filter(date_posted__gte=one_week_ago).order_by('-question_answer_count')
+    u = request.user
+    user_sem = Profile.objects.get(user=u)
+    q = QuestionPost.objects.filter(question_author_semester=user_sem.semester)
+    one_week_ago = datetime.today() - timedelta(days=7)
+    questions = q.filter(date_posted__gte=one_week_ago).order_by('-question_answer_count')
+    paginator = Paginator(questions, 10)
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    questions = paginator.get_page(page)
     context = {'q': questions}
-    return render(request, 'forum/dashboard.html', context)
+    return render(request, 'forum/treanding.html', context)
 
 
 @login_required
 def rsort(request):
-    questions = QuestionPost.objects.all().order_by('-date_posted')
+    u = request.user
+    user_sem = Profile.objects.get(user=u)
+    q = QuestionPost.objects.filter(question_author_semester=user_sem.semester)
+    questions= q.order_by('-date_posted')
+    paginator = Paginator(questions, 10)
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    questions = paginator.get_page(page)
     context = {'q': questions}
-    return render(request, 'forum/dashboard.html', context)
+    return render(request, 'forum/latest.html', context)
+
+@login_required
+def msort(request):
+    u = request.user
+    user_sem = Profile.objects.get(user=u)
+    q = QuestionPost.objects.filter(question_author_semester=user_sem.semester)
+    questions = q.order_by('-question_view_count')
+    paginator = Paginator(questions, 10)
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+    questions = paginator.get_page(page)
+    context = {'q': questions}
+    return render(request, 'forum/mostviewed.html', context)
+
 
 
 def newquestion(request):
@@ -75,8 +104,7 @@ def newquestion(request):
         q.question_content = question
         q.question_subject = request.POST.get('question_subject')
         q.posted_by = request.user
-        sem = Profile.objects.get(user=q.posted_by)
-        q.question_author_semester = sem.semester
+        q.question_author_semester = request.POST.get('question_author_semester')
         q.save()
         c = Profile.objects.get(user=q.posted_by)
         post_count = QuestionPost.objects.filter(posted_by=q.posted_by).count()
@@ -84,7 +112,14 @@ def newquestion(request):
         c.save()
         return redirect(viewquestion, q.id)
     else:
-        return render(request, 'forum/addquestion.html')
+        user = request.user
+        user_sem = Profile.objects.get(user=user)
+        messages.info(request,"Question already exist")
+        content = {
+            'u_form': user_sem,
+
+        }
+        return render(request, 'forum/addquestion.html', content)
 
 
 def viewquestion(request, question_id):
@@ -118,9 +153,12 @@ def viewquestion(request, question_id):
     question = QuestionPost.objects.filter(pk=question_id)
     for q in question:
         a = str(q.question_content)
+        b = str(q.question_subject)
+    a.replace(' ', '')
+
 
     recom = pd.DataFrame(list(
-        QuestionPost.objects.all().values('question_view_count', 'question_content', 'question_answer_count',
+        QuestionPost.objects.all().values('question_view_count', 'question_content', 'question_answer_count','question_subject',
                                           'posted_by', 'id', 'question_like', 'posted_by_id')))
     scaling = MinMaxScaler()
     recom_scaled_df = scaling.fit_transform(recom[['question_view_count', 'question_answer_count']])
@@ -129,41 +167,51 @@ def viewquestion(request, question_id):
     recom['score'] = recom['NQuestion View Count'] * 0.5 + recom['NQuestion Answer Count'] * 0.5
     recom = recom.sort_values(['score'], ascending=False)
     print(recom)
-    test = recom.sort_values(['score'], ascending=[False])
-    print(test)
+    # test = recom.sort_values(['score'], ascending=[False])
+    # print(test)
     recom.rename(columns={'question_view_count': 'QuestionViewCount'}, inplace=True)
     recom = recom.drop_duplicates(['id', 'question_content'])
+
     recom_pivot = recom.pivot(index='id', columns='question_content', values='score')
     recom_pivot.fillna(0, inplace=True)
-    print(recom_pivot)
+    # print(recom_pivot)
     recom_matrix = csr_matrix(recom_pivot.values)
+    # print(recom_matrix)
     recom_pivot.reset_index(inplace=True)
     model_knn = NearestNeighbors(metric='cosine', algorithm='brute')
     model_knn.fit(recom_matrix)
+    n_question_to_reccomend = 100
 
-    # def get_movie_recommendation(movie_name):
-    n_movies_to_reccomend = 20
-    movie_list = recom[recom['question_content'].str.contains(a)]
-    if len(movie_list):
-        movie_idx = movie_list.iloc[0]['id']
-        movie_idx = recom_pivot[recom_pivot['id'] == movie_idx].index[0]
-        distances, indices = model_knn.kneighbors(recom_matrix[movie_idx], n_neighbors=n_movies_to_reccomend + 1)
-        rec_movie_indices = sorted(list(zip(indices.squeeze().tolist(), distances.squeeze().tolist())),
+    # for i in a:
+    #     if i == "(":
+    #         a = question_list = recom[recom['question_content'].str.contains('|'.join(a), regex=True)]
+    #     elif i == ")":
+    #         a = question_list = recom[recom['question_content'].str.contains('|'.join(a), regex=True)]
+    #     elif i == "?":
+    #         a = question_list = recom[recom['question_content'].str.contains('|'.join(a), regex=True)]
+    #     else:
+    question_list = recom[recom['question_content'].str.contains(a)]
+    if len(question_list):
+        question_idx = question_list.iloc[0]['id']
+        question_idx = recom_pivot[recom_pivot['id'] == question_idx].index[0]
+        distances, indices = model_knn.kneighbors(recom_matrix[question_idx], n_neighbors=n_question_to_reccomend + 1)
+        rec_question_indices = sorted(list(zip(indices.squeeze().tolist(), distances.squeeze().tolist())),
                                    key=lambda x: x[1])[:0:-1]
         print(indices)
         recommend_frame = []
-        for val in rec_movie_indices:
-            movie_idx = recom_pivot.iloc[val[0]]['id']
-            idx = recom[recom['id'] == movie_idx].index
-            recommend_frame.append({'Title': recom.iloc[idx]['question_content'].values[0], 'Distance': val[1], 'id':  recom.iloc[idx]['id'].values[0]})
+        for val in rec_question_indices:
+            question_idx = recom_pivot.iloc[val[0]]['id']
+            idx = recom[recom['id'] == question_idx].index
+            recommend_frame.append({'Title': recom.iloc[idx]['question_content'].values[0], 'question_subject': recom.iloc[idx]['question_subject'].values[0], 'Distance': val[1], 'id':  recom.iloc[idx]['id'].values[0]})
             print(idx)
-        df = pd.DataFrame(recommend_frame, index=range(1, n_movies_to_reccomend + 1))
-        print(df)
+        df = pd.DataFrame(recommend_frame, index=range(1, n_question_to_reccomend + 1))
+        # print(df)
+        popularity_threshold = b
+        df = df.query('question_subject == @popularity_threshold')
         df.sort_values('Distance', ascending=False, inplace=True)
-        output = df[1:].head(10)
+        output = df[1:].head(8)
         json_record = output.reset_index().to_json(orient='records')
         data = json.loads(json_record)
-
         context = {'question': question, 'q': data, 'answers': answers}
         print(context)
 
@@ -174,7 +222,7 @@ def viewquestion(request, question_id):
 def myposts(request):
     q = QuestionPost.objects.filter(posted_by=request.user)
 
-    paginator = Paginator(q, 2)
+    paginator = Paginator(q, 5)
     try:
         page = int(request.GET.get('page', '1'))
     except:
@@ -188,7 +236,7 @@ def UserPostListView(request, username):
     q = QuestionPost.objects.filter(posted_by=m)
     user = request.user
     if str(user) != str(username):
-        paginator = Paginator(q, 2)
+        paginator = Paginator(q, 5)
         try:
             page = int(request.GET.get('page', '1'))
         except:
@@ -209,7 +257,7 @@ def search1(request):
         messages.info(request, 'Please fill something. Empty Search')
         content = {'q': query}
         return render(request, 'forum/search.html', content)
-    elif len(query) >= 80:
+    elif len(query) >= 150:
         messages.info(request, 'Search query is too long')
         # return redirect(forum)
         # content = {'q': query}
@@ -220,11 +268,11 @@ def search1(request):
         content = {'q': question}
         return render(request, 'user/search.html', content)
     else:
-        allposttitle = QuestionPost.objects.filter(Q(question_content__icontains=query))
-        allpostauthorsem = QuestionPost.objects.filter(Q(question_author_semester__icontains=query))
+        allposttitle = QuestionPost.objects.filter(Q(question_content__icontains=query) | Q(question_author_semester__icontains=query))
+        allpostauthorsem = QuestionPost.objects.filter(Q(posted_by__username__icontains=query))
         allpostsubject = QuestionPost.objects.filter(Q(question_subject__icontains=query))
         question = allposttitle.union(allpostauthorsem, allpostsubject)
-        paginator = Paginator(question, 2)
+        paginator = Paginator(question, 5)
         try:
             page = int(request.GET.get('page', '1'))
         except:
@@ -293,7 +341,7 @@ def notification(request):
     notification = SendNotification.objects.filter(user=user)
     notification.update(viewed=True)
 
-    paginator = Paginator(notification, 12)
+    paginator = Paginator(notification, 5)
     page = request.GET.get("page")
     try:
         query_list = paginator.page(page)
@@ -307,9 +355,9 @@ def notification(request):
 
 @login_required
 def questionupdate(request, question_id):
-    context = {}
-    content = QuestionPost.objects.get(pk=question_id)
-    if content.posted_by == request.user:
+    contexts = {}
+    contents = QuestionPost.objects.get(pk=question_id)
+    if contents.posted_by == request.user:
         if request.method == 'POST':
             # QuestionPost.objects.filter(id=question_id).update(question_content=data['ques'], phone=data['phone'])
             question_content = request.POST.get('question_content')
@@ -324,8 +372,14 @@ def questionupdate(request, question_id):
             q.save(update_fields=["question_content", "question_subject"])
             return redirect(viewquestion, q.question_id)
         else:
-            context['q'] = content
-            return render(request, 'forum/updatequestion.html', context)
+            user = request.user
+            user_sem = Profile.objects.get(user=user)
+
+            content = {
+                'u_form': user_sem,
+                'q': contents,
+            }
+            return render(request, 'forum/updatequestion.html', content)
 
 
 def answerdelete(request, answer_id):
@@ -435,4 +489,5 @@ def user_profile_display(request, question_id):
     #         return render(request, "forum/test2.html", context)
 
 
-
+def ContactUs(request):
+    return render(request, "forum/contactus.html")

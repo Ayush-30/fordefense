@@ -1,47 +1,89 @@
-{% extends "Forum/base.html" %}
+{% extends 'forum/navbar2.html' %}
 {% block content %}
+<style>
+     .notificationbar {
+            padding: 15px;
+        }
 
+    h1 {
+        font-weight:550;
+        color: black;
+    }
+    h4 {
+        font-weight:200;
+        font-size: 12px;
 
-<div class="col-sm-12 text-right"> 
-    <div style="margin-bottom: 5mm;"></div>
-    <div class="post">
-        <div class="topwrap">
-            <div class="posttext pull-left">
-                <p onclick="window.location.href={% url 'forum' %}"> Notification</p>
+    }
+    p {
+        font-weight:200;
+        font-size: 15px;
+
+    }
+
+    .question-wrapper {
+        margin-top: 30px;
+        padding: 10px 20px;
+        background-color: rgb(233, 230, 230);
+
+    }
+
+    .faq-block {
+        margin-top: 10px;
+    }
+    .faq-block2 {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: rgb(233, 230, 230);
+        border-radius: 15px;
+    }
+    a {
+        color: black;
+    }
+</style>
+<body>
+<!-- main body part  -->
+<main id="tt-pageContent">
+    <div class="container">
+        <!-- heading -->
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <h1>Notification</h1>
             </div>
-            <div class="clearfix"></div>
+
         </div>
-    </div>
-    <div class="post">
-        <div class="topwrap">
-            {% if query_list %}
+
+        {% if query_list %}
                 {% for obj in query_list %}
-                    <div class="posttext pull-left">
-                        <div class="list-group">
-                            <h1>
-                                <a href="viewquestion/{{ obj.question_id.question_id }}/{{ obj.question_id.slug }}" class="topictitle">{{ obj.question }}
-                                </a>
-                            </h1>
-                            <br>
-                            <div class="d-flex w-100 justify-content-between">
+                        <div class="row ">
+                            <div class="col-lg-12 px-0">
+                                <a href="{% url 'viewquestion'  obj.question_id.question_id %}" class="topictitle">
+
+                                    <div class="faq-block2">
+                                        <h4>{{ obj.question }}</h4>
+
+                                    {{ obj.message }} for "{{ obj.question_content }}"
                                 <p>
-                                    <b>{{ obj.message }} for "{{ obj.question_content }}"</b>
-                                </p>
-                               {{ obj.sent|timesince }} ago from <b>{{ obj.from_user }}</b>
+                                        {{ obj.sent|timesince }} ago from <span style="font-weight:750">{{ obj.from_user }}</span></p>
+                                    </div>
+                                </a>
+
                             </div>
-                            <p class="mb-1">{{ question.question_details|linebreaks|truncatechars:120 }}</p>
                         </div>
-                        <hr>
-                    </div>
-                {% endfor %}
+         {% endfor %}
            {% else %}
                 <h6>No Notifications Found.</h6>
            {% endif %}
-        </div>
-        <div class="clearfix"></div>
     </div>
-</div>
+</main>
 
-{% endblock content %}
+
+
+
+
+{% include "forum/jsfrontend.html" %}
+{% endblock  %}
+
+
+
 
     

@@ -1,39 +1,96 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'css/cred/cred.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cred/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cred/signin.css' %}">
     <title>GeekHub</title>
     <link rel="icon" type="image/png" href="{% static 'img/geekhub.png' %}"/>
 </head>
-<body>
-	{% include "forum/message.html" %}
-<img src="{% static 'img/geekhub.png' %}" alt="GeekHub" class="centerlog" align="center"
-     style="width:32%">
-  <form class="modal-content animate"  method="POST">
-   {% csrf_token %}
-    <div class="container" >
-      <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
-<br>
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
-<br>
-      <button type="submit">Login</button>
-      <label>
-        <input type="checkbox" checked="checked" name="remember"> Remember me
-      </label>
+<body background="{% static 'img/back.png' %}">
+
+
+{% if messages %}
+		{% for message in messages %}
+            <div class="alert alert-danger" style="margin:15px;padding:15px;background-color:#d9edf6;padding-left:40px;">
+                <b>{{ message }}</b>
+			</div>
+		{% endfor %}
+{% endif %}
+
+    <div class="contain">
+        <div class="container">
+            <br>
+            <img src="{% static 'img/geekhub.png' %}" alt="GeekHub" class="centerlog" align="center" style="width:15%; display: block; margin-bottom: -60px;  ">
+        </div>
+        <form class="modal-content animate"  method="POST">
+            <div class="cont">
+                {% csrf_token %}
+                <div class="form sign-in"align="center">
+
+                    <label for="uname">
+                        <span>Username</span>
+                        <input type="text" placeholder="Enter Username" name="uname" id="uname" required>
+                    </label>
+                     <label for="psw">
+                         <span>Password</span>
+                         <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+                    </label>
+
+
+<!--                    <button type="submit" >Sign In</button>-->
+<!--                    <button type="button" onClick="location.href='{% url 'open_page' %}'" class="cancelbtn" style="background:#962A1A;">Cancel</button>-->
+                  <div class="clearfix" style="padding-top:15px;">
+                <button type="submit" class="signup" style="margin-left: auto;margin-right: auto;width: 100%;display:block; background:#100549; top:0%;margin-bottom:0% font-size:14px; color:#ffffff;">Sign In</button>
+                <br>
+                <button type="button" onClick="location.href='{% url 'open_page' %}'"  class="cancelbtn" style="margin-right: auto;margin-left: auto;width: 100%;display:block;top:0%;margin-bottom:0% color:#ffffff;">Cancel</button>
+            </div>
+                     <p class="forgot-pass"><a href="{% url 'password_reset'%}" style="color:black;">Forgot password?</a></p>
+
+                </div>
+            </div>
+        </form>
     </div>
+    <script src="{% static 'js/signinjs.js' %}"></script>
+</body><!--{% load static %}-->
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'css/cred/cred.css' %}">-->
+<!--    <title>GeekHub</title>-->
+<!--    <link rel="icon" type="image/png" href="{% static 'img/geekhub.png' %}"/>-->
+<!--</head>-->
+<!--<body>-->
+<!--	{% include "forum/message.html" %}-->
+<!--<img src="{% static 'img/geekhub.png' %}" alt="GeekHub" class="centerlog" align="center"-->
+<!--     style="width:32%">-->
+<!--  <form class="modal-content animate"  method="POST">-->
+<!--   {% csrf_token %}-->
+<!--    <div class="container" >-->
+<!--      <label for="uname"><b>Username</b></label>-->
+<!--      <input type="text" placeholder="Enter Username" name="uname" required>-->
+<!--<br>-->
+<!--      <label for="psw"><b>Password</b></label>-->
+<!--      <input type="password" placeholder="Enter Password" name="psw" required>-->
+<!--<br>-->
+<!--      <button type="submit">Login</button>-->
+<!--      <label>-->
+<!--        <input type="checkbox" checked="checked" name="remember"> Remember me-->
+<!--      </label>-->
+<!--    </div>-->
 
-    <div class="container" style="background-color:#f1f1f1">
-        <button type="button" onClick="location.href='{% url 'open_page' %}'" class="cancelbtn">Cancel</button>
-      <span class="psw"><a href="{% url 'password_reset'%}">Forgot password?</a></span>
-    </div>
-  </form>
-</div>
+<!--    <div class="container" style="background-color:#f1f1f1">-->
+<!--        <button type="button" onClick="location.href='{% url 'open_page' %}'" class="cancelbtn">Cancel</button>-->
+<!--      <span class="psw"><a href="{% url 'password_reset'%}">Forgot password?</a></span>-->
+<!--    </div>-->
+<!--  </form>-->
+<!--</div>-->
 
 
 
-</body>
-</html>
+<!--</body>-->
+<!--</html>-->

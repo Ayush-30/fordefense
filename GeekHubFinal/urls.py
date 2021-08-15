@@ -51,7 +51,7 @@ urlpatterns = [
     path('notification/viewquestion/<int:question_id>/', f.viewquestion, name='viewquestion'),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         activate, name='activate'),
-
+    path('ContactUs/', f.ContactUs, name='ContactUs'),
     path('library/', include('Library.urls')),
     # path('navbar/', l.navbar, name='navbar'),
     # path('comp1/', l.comp1, name='comp1'),

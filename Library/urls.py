@@ -8,7 +8,7 @@ from .views import *
 
 urlpatterns = [
     path('', library, name='library'),
-    path('navbar/', library, name='navbar'),
+    path('navbar/', navbar, name='navbar'),
     path('comp1/', library, name='comp1'),
     path('error/', error, name='error'),
 

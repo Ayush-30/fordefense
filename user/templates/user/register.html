@@ -1,4 +1,5 @@
 {% load static %}
+{% load static %}
 
 
 <!DOCTYPE html>
@@ -6,50 +7,53 @@
   <title>GeekHub</title>
 <link rel="icon" type="image/png" href="{% static 'img/geekhub.png' %}"/>
   <head>
-       <link rel="stylesheet" type="text/css" href="{% static 'css/cred/cred.css' %}">
+       <link rel="stylesheet" type="text/css" href="{% static 'css/cred/signupcss.css' %}">
 
       <link rel="stylesheet" type="text/css" href="{% static 'css/Edits/style1.css' %}">
 
-       <link rel="stylesheet" type="text/css" href="{% static 'css/cred/style.css' %}">
+
        <link rel="stylesheet" type="text/css" href="{% static 'css/Edits/style.css' %}">
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
-  <body>
+  <body background="{% static 'img/back.png' %}">
   {% csrf_token %}
-{% include "forum/message.html" %}
+{% if messages %}
+		{% for message in messages %}
+            <div style="margin:1px;padding:15px;color:red;">
+                <b>{{ message }}</b>
+			</div>
+		{% endfor %}
+{% endif %}
 
-<img src="{% static 'img/geekhub.png' %}" alt="GeekHub" class="centerlog" style="width:32%">
-<form class="modal-content animate" method="POST">
+<img src="{% static 'img/geekhub.png' %}" alt="GeekHub" class="centerlog" align="center" style="width:15%; display: block; margin-bottom: -60px;  "><form class="modal-content animate" method="POST">
     {% csrf_token %}
-
-      <div class="container">
+      <div class="container" style="width:90%;height: 100%;">
         <div class="col-lg-11 col-md-8" style="font-size: 14px;">
 
-            <label for="username">
+            <label for="uname">
                 <b>Username</b>
             </label>
 
-            <input type="text" placeholder="Enter Username" name="username" required>
-
+            <input type="text" placeholder="Enter Username" name="username" id="uname" required>
+<br><br>
             <label for="email">
                 <b>Email</b>
             </label>
 
-            <input type="text" placeholder="Enter Email Address" name="email" required>
-
+            <input type="text" placeholder="Enter Email Address" name="email" id="email" required>
+<br><br>
             <label for="dob">
                 <b>Date Of Birth</b>
             </label>
             {{profile_form.date_of_birth}}
-
+<br><br>
             <label for="text">
                 <b>College</b>
             </label>
             {{profile_form.college}}
-
             <br>
             <br>
 
@@ -58,14 +62,14 @@
 
             </label>
             {{profile_form.semester}}
-
+<br><br>
             <div style="margin-bottom: 5mm;"></div>
 
             <label for="yoe">
                 <b>Contact Number</b>
             </label>
             {{profile_form.contact_number}}
-
+<br><br>
             <div style="margin-bottom: 5mm;"></div>
 
             <label for="psw">
@@ -73,24 +77,25 @@
             </label>
 
             <input type="password" placeholder="Enter Password" name="password1" required>
-
+<br><br>
             <label for="psw-repeat">
                 <b>Repeat Password</b>
             </label>
 
             <input type="password" placeholder="Repeat Password" name="password2" required>
-
-            <label>
-                <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-            </label>
+<br><br>
+<!--            <label>-->
+<!--                <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me-->
+<!--            </label>-->
 
             <p>
                 By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.
             </p>
 
             <div class="clearfix">
-                <button type="submit" class="signup" style="margin-left: auto;margin-right: auto;width: 100%;display:block;top:0%;margin-bottom:0%">Sign Up</button>
-                <button type="button" onClick="location.href='{% url 'open_page' %}'"  class="cancelbtn" style="margin-right: auto;margin-left: auto;width: 100%;display:block;top:0%;margin-bottom:0%">Cancel</button>
+                <button type="submit" class="signup" style="margin-left: auto;margin-right: auto;width: 100%;display:block; background:#100549; top:0%;margin-bottom:0% font-size:14px; color:#ffffff; border-radius: 5px;">Sign Up</button>
+                <br>
+                <button type="button" onClick="location.href='{% url 'open_page' %}'"  class="cancelbtn" style="margin-right: auto;margin-left: auto;width: 100%;display:block;top:0%;margin-bottom:0% color:#ffffff;">Cancel</button>
             </div>
         </div>
     </div>
@@ -105,3 +110,5 @@
 
 </script>
 </body>
+
+

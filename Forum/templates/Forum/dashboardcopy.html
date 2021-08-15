@@ -1,0 +1,77 @@
+{% load static %}
+<div class="forumbg">
+				<div class="inner">
+
+                    <ul class="topiclist topics">
+						<h6>
+							<!-- Post haru eta hai -->
+				            <div id="wrap-body">
+                				<div class="chunk-main">
+                    				{% for q in q %}
+                        				<div id="p1" class="post has-profile bg2">
+                            				<div class="inner">
+                                				<dl class="postprofile" id="profile1">
+                                    				<dt class="has-profile-rank no-avatar">
+                                        				{% if q.posted_by.profile.user_image.url %}
+                                            				<img src="{{ q.posted_by.profile.user_image.url }}" alt="User Name" style="width: 40px;height: 40px;">
+                                        				{% else %}
+                                            				<img src="{% static 'img/avatar.jpg' %}" alt="User Name" style="width:100%">
+                                        				{% endif %}
+                                        				<div class="avatar-container">
+                                        				</div>
+                                        				<a href="{% url 'user_profile_display' q.question_id %}" style="color: #AA0000;" class="username-coloured">{{ q.posted_by }}</a>
+                                    				    </dt>
+                                    				<div class="profile-posts">
+                                                        <ul>
+                                                            <li>
+																{{q.posted_by.profile.semester}}
+                                                            </li>
+                                                            <li>
+                                                                 No of posts: <a href="">{{ q.posted_by.profile.number_of_posts }}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                				</dl>
+                                			<div class="postbody">
+                                    			<div id="post_content1">
+<!--                                        			<ul class="posts-buttons">																																			<li>-->
+<!--                                            			<li>-->
+<!--                                                			<a href="#">-->
+<!--                                                    			<i class="fa fa-pencil-square-o" style="font-size: 20px;font-weight: bold;"></i><span>Edit</span>-->
+<!--                                                			</a>-->
+<!--                                            			</li>-->
+<!--                                        			</ul>-->
+                                        			<p class="author">
+														<a href="viewquestion/{{ q.question_id }}/">{{q.question_subject}}</a>,
+														<a href="viewquestion/{{ q.question_id }}/">{{q.question_author_semester}}</a>
+                                        			</p>
+													<a href="viewquestion/{{ q.question_id }}/">
+                                                        <div class="content"><strong>{{q.question_content}}</strong>
+															</a>
+													    <hr>
+																<dd class="views" >{{ q.question_answer_count }}<dfn>Replies</dfn>
+																</dd>
+																<dd class="views" >{{ q.question_view_count }}<dfn>Views</dfn>
+																</dd>
+															<div class="profile-joined" style="font-size:15px; text-align:right;" >Posted: {{ q.date_posted|timesince }} ago</div>
+													</div>
+                                    			</div>
+
+                                			</div>
+                            			</div>
+                        			</div>
+                        			<hr class="divider">
+                    			{% endfor %}
+                			</div>
+							</div>
+						</h6>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<div class="container">
+			{% include "Forum/pagination.html" %}
+		</div>
