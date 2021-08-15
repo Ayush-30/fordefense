@@ -1,0 +1,47 @@
+{% extends "Forum/base.html" %}
+{% block content %}
+
+
+<div class="col-sm-12 text-right"> 
+    <div style="margin-bottom: 5mm;"></div>
+    <div class="post">
+        <div class="topwrap">
+            <div class="posttext pull-left">
+                <p onclick="window.location.href={% url 'forum' %}"> Notification</p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="post">
+        <div class="topwrap">
+            {% if query_list %}
+                {% for obj in query_list %}
+                    <div class="posttext pull-left">
+                        <div class="list-group">
+                            <h1>
+                                <a href="viewquestion/{{ obj.question_id.question_id }}/{{ obj.question_id.slug }}" class="topictitle">{{ obj.question }}
+                                </a>
+                            </h1>
+                            <br>
+                            <div class="d-flex w-100 justify-content-between">
+                                <p>
+                                    <b>{{ obj.message }} for "{{ obj.question_content }}"</b>
+                                </p>
+                               {{ obj.sent|timesince }} ago from <b>{{ obj.from_user }}</b>
+                            </div>
+                            <p class="mb-1">{{ question.question_details|linebreaks|truncatechars:120 }}</p>
+                        </div>
+                        <hr>
+                    </div>
+                {% endfor %}
+           {% else %}
+                <h6>No Notifications Found.</h6>
+           {% endif %}
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+{% endblock content %}
+
+    

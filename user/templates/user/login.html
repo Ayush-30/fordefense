@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cred/cred.css' %}">
+    <title>GeekHub</title>
+    <link rel="icon" type="image/png" href="{% static 'img/geekhub.png' %}"/>
+</head>
+<body>
+	{% include "forum/message.html" %}
+<img src="{% static 'img/geekhub.png' %}" alt="GeekHub" class="centerlog" align="center"
+     style="width:32%">
+  <form class="modal-content animate"  method="POST">
+   {% csrf_token %}
+    <div class="container" >
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
+<br>
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+<br>
+      <button type="submit">Login</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+        <button type="button" onClick="location.href='{% url 'open_page' %}'" class="cancelbtn">Cancel</button>
+      <span class="psw"><a href="{% url 'password_reset'%}">Forgot password?</a></span>
+    </div>
+  </form>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+{% extends 'forum/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Content</title>
+  <link rel="icon" type="image/png" href="img/geekhub.png"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="css/stylesheet.css" rel="stylesheet" type="text/css" media="screen, projection" />
+  <link href="css/colours.css" rel="stylesheet" type="text/css" media="screen, projection" />
+	<link href="{% static 'css/library/bootstrapmin.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+<!--    <link href="{% static 'css/library/stylesheet.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />-->
+<!--    <link href="{% static 'css/library/colours.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />-->
+<!--    <link href="{% static 'css/library/lib.css'  %}" rel="stylesheet" type="text/css" media="screen,projection" />-->
+<!--    <link href="{% static 'css/library/style.css' %}" rel="stylesheet">-->
+  <!-- fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
+
+</head>
+<body>
+    <main id="tt-pageContent">
+        <div class="tt-custom-mobile-indent container">
+            <div id="wrap-subhead">
+                <div class="chunk">
+                    <div id="subhead-title">
+                        <h4 class="forum-title"><a href="#">Welcome</a></h4>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wrap-body">
+                <div class="chunk-main">
+						{% if messages %}
+								{% for message in messages %}
+									<div class="alert alert-{{ message.tags }}">
+										{{ message }}
+									</div>
+								{% endfor %}
+						{% endif %}
+					{% if q|length < 1 %}
+							No search result: <B>{{ query}}</B>
+					{% else %}
+						{% for b in q %}
+                        				<div id="p1" class="post has-profile bg2">
+                            				<div class="inner">
+                                				<dl class="postprofile" id="profile1">
+                                    				<dt class="has-profile-rank no-avatar">
+                                        				{% if b.posted_by.profile.user_image.url %}
+                                            				<img src="{{ b.posted_by.profile.user_image.url }}" alt="User Name" style="width: 40px;height: 40px;">
+                                        				{% else %}
+                                            				<img src="{% static 'img/avatar.jpg' %}" alt="User Name" style="width:100%">
+                                        				{% endif %}
+                                        				<div class="avatar-container">
+                                        				</div>
+
+                                        				<a href="{% url 'user_profile_display' b.question_id %}" style="color: #AA0000;" class="username-coloured">{{ b.posted_by }}</a>
+                                    				</dt>
+													<br>
+													<br><br>
+                                    				<a href="viewquestion/{{ b.question_id }}/">{{b.question_author_semester}}</a>
+                                    				<dd class="profile-posts">No of posts: <a href="">{{ b.posted_by.profile.number_of_posts }}</a></dd>
+                                				</dl>
+                                			<div class="postbody">
+                                    			<div id="post_content1">
+                                        			<ul class="posts-buttons">																																			<li>
+                                            			<li>
+                                                			<a href="#">
+                                                    			<i class="fa fa-pencil-square-o" style="font-size: 20px;font-weight: bold;"></i><span>Edit</span>
+                                                			</a>
+                                            			</li>
+                                        			</ul>
+                                        			<p class="author">
+														<a href="viewquestion/{{ b.question_id }}/">{{b.question_subject}}</a>
+                                        			</p>
+													<a href="viewquestion/{{ b.question_id }}/">
+                                        				<div class="content" style="font-size: medium;"><strong>{{b.question_content}}</strong><hr></div>
+													</a>
+                                    			</div>
+												<dd class="profile-joined">Posted: {{ b.date_posted|timesince }} ago</dd>
+                                			</div>
+                            			</div>
+                        			</div>
+                        			<hr class="divider">
+					{% endfor %}
+					{% include "Forum/pagination.html" %}
+					{% endif %}
+                </div>
+			</div>
+        </div>
+	</main>
+<!--        {% if q.has_previous %}-->
+
+<!--        <a class="btn btn-outline-info mb-4" href="?page=1{% if request.GET.searchquery %}&searchquery={{ request.GET.searchquery }}{% endif %}">First</a>-->
+<!--        <a class="btn btn-outline-info mb-4" href="?page={{ q.previous_page_number }}{% if request.GET.searchquery %}&searchquery={{ request.GET.searchquery }}{% endif %}">Previous</a>-->
+<!--		{% endif %}-->
+<!--		{% for num in q.paginator.page_range %}-->
+<!--				{% if q.number == num %}-->
+<!--					<a class="btn btn-info mb-4" href="?page={{ num }}{% if request.GET.searchquery %}&searchquery={{ request.GET.searchquery }}{% endif %}">{{ num }}</a>-->
+<!--				{% elif num > q.number|add:'-3' and num < q.number|add:'3' %}-->
+<!--							<a class="btn btn-outline-info mb-4" href="?page={{ num }}{% if request.GET.searchquery %}&searchquery={{ request.GET.searchquery }}{% endif %}">{{ num }}</a>-->
+<!--				{% endif %}-->
+<!--		{% endfor %}-->
+<!--		{% if q.has_next %}-->
+<!--				<a class="btn btn-outline-info mb-4" href="?page={{ q.next_page_number }}{% if request.GET.searchquery %}&searchquery={{ request.GET.searchquery }}{% endif %}">next</a>-->
+<!--				<a class="btn btn-outline-info mb-4" href="?page={{ q.paginator.num_pages }}{% if request.GET.searchquery %}&searchquery={{ request.GET.searchquery }}{% endif %}">Last</a>-->
+<!--		{% endif %}-->
+        <script src="js/bundle.js"></script>
+
+{% endblock content %}
+</body>
+</html>

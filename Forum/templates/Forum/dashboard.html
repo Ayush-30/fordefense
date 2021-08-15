@@ -1,0 +1,90 @@
+{% extends 'forum/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Geekhub</title>
+    <link rel="icon" type="image/png" href="{%static 'img/geekhub.png' %}"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'css/library/bootstrapmin.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'css/library/stylesheet.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />
+    <link href="{% static 'css/library/colours.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />
+    <link href="{% static 'css/library/lib.css'  %}" rel="stylesheet" type="text/css" media="screen,projection" />
+    <link href="{% static 'css/library/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+<div id="wrap-subhead">
+	<div class="chunk">
+		<div id="subhead-title">
+			<h4 class="forum-title"><a href="{% url 'forum' %}">Welcome</a></h4>
+		</div>
+	</div>
+</div>
+<div style="margin-bottom: 15mm;"></div>
+<div class="col-sm-12 text-left">
+	<div id="wrap-body">
+		<div class="chunk-main">
+			<div class="forumbg">
+				<div class="inner">
+
+<!--				POST CONTENTS DISPLAY-->
+
+					<ul class="topiclist topics">
+						<h6>
+							{% for q in q %}
+								<li class="row bg1">
+									<dl class="icon topic_read">
+										<dt title="No unread posts">
+											<div class="list-inner"; style="text-align: center">
+												<a href="viewquestion/{{ q.question_id }}/" class="topictitle">{{ q.question_content }}
+												</a>
+												<br/>
+											</div>
+										</dt>
+										<dd class="posts">{{ q.question_answer_count }}<dfn>Replies</dfn>
+										</dd>
+										<dd class="views">{{ q.question_view_count }}<dfn>Views</dfn>
+										</dd>
+										<dd class="lastpost"><span><dfn>Last post </dfn>
+
+											<div class="avatar">
+												{% if q.posted_by.profile.user_image.url %}
+												<img src="{{ q.posted_by.profile.user_image.url }}" alt="User Name" style="width: 40px;height: 40px;">
+												{% else %}
+												<img src="{% static 'img/default.jpg' %}" alt="User Name" style="width: 40px;height: 40px;">
+												{% endif %}
+											</div>
+											<a href="{% url 'user_profile_display' q.question_id %}" style="color: #AA0000;" class="username-coloured">{{ q.posted_by }}</a>
+											<a href="#" title="Go to last post" class="lastpost-last"><i class="fa fa-arrow-right"></i></a> <br />{{ q.date_posted }}</span>
+										</dd>
+									</dl>
+								</li>
+								<hr>
+							{% endfor %}
+						</h6>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<div class="container">
+			{% include "Forum/pagination.html" %}
+		</div>
+</div>
+<!--		<div class="container-fluid text-center">-->
+<!--	  		<div class="row content">-->
+<!--				<div class="col-sm-12 sidenav">-->
+<!--				  <p><a href="#">Link</a></p>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--		<footer class="container-fluid text-center">-->
+<!--		  <p>Footer Text</p>-->
+<!--		</footer>-->
+<script src="{% static 'js/bundle.js'%}"></script>
+{% endblock content %}

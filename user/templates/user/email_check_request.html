@@ -1,0 +1,12 @@
+{% extends "user/first_base.html" %}
+{% block content %}
+{% load static %}
+  {% csrf_token %}
+    <br><br><br>
+    <div>
+                  <h1 align="center">
+                  <p>Please check your Email for verification mail!</p>
+                  </h1>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% load static %}
+{% csrf_token %}
+{% autoescape off %}
+
+Welcome to GeekHub,
+
+Dear {{ user.username }},
+Thank You for signing up on GeekHub.
+
+Please click on the link below to confirm your registration and activate your account:
+
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+{% endautoescape %}
+

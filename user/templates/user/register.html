@@ -1,0 +1,107 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+  <title>GeekHub</title>
+<link rel="icon" type="image/png" href="{% static 'img/geekhub.png' %}"/>
+  <head>
+       <link rel="stylesheet" type="text/css" href="{% static 'css/cred/cred.css' %}">
+
+      <link rel="stylesheet" type="text/css" href="{% static 'css/Edits/style1.css' %}">
+
+       <link rel="stylesheet" type="text/css" href="{% static 'css/cred/style.css' %}">
+       <link rel="stylesheet" type="text/css" href="{% static 'css/Edits/style.css' %}">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+  <body>
+  {% csrf_token %}
+{% include "forum/message.html" %}
+
+<img src="{% static 'img/geekhub.png' %}" alt="GeekHub" class="centerlog" style="width:32%">
+<form class="modal-content animate" method="POST">
+    {% csrf_token %}
+
+      <div class="container">
+        <div class="col-lg-11 col-md-8" style="font-size: 14px;">
+
+            <label for="username">
+                <b>Username</b>
+            </label>
+
+            <input type="text" placeholder="Enter Username" name="username" required>
+
+            <label for="email">
+                <b>Email</b>
+            </label>
+
+            <input type="text" placeholder="Enter Email Address" name="email" required>
+
+            <label for="dob">
+                <b>Date Of Birth</b>
+            </label>
+            {{profile_form.date_of_birth}}
+
+            <label for="text">
+                <b>College</b>
+            </label>
+            {{profile_form.college}}
+
+            <br>
+            <br>
+
+            <label for="clg">
+                <b>Semester</b>
+
+            </label>
+            {{profile_form.semester}}
+
+            <div style="margin-bottom: 5mm;"></div>
+
+            <label for="yoe">
+                <b>Contact Number</b>
+            </label>
+            {{profile_form.contact_number}}
+
+            <div style="margin-bottom: 5mm;"></div>
+
+            <label for="psw">
+                <b>Password</b>
+            </label>
+
+            <input type="password" placeholder="Enter Password" name="password1" required>
+
+            <label for="psw-repeat">
+                <b>Repeat Password</b>
+            </label>
+
+            <input type="password" placeholder="Repeat Password" name="password2" required>
+
+            <label>
+                <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+            </label>
+
+            <p>
+                By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.
+            </p>
+
+            <div class="clearfix">
+                <button type="submit" class="signup" style="margin-left: auto;margin-right: auto;width: 100%;display:block;top:0%;margin-bottom:0%">Sign Up</button>
+                <button type="button" onClick="location.href='{% url 'open_page' %}'"  class="cancelbtn" style="margin-right: auto;margin-left: auto;width: 100%;display:block;top:0%;margin-bottom:0%">Cancel</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+
+    <!--		//Query All input fields-->
+    <!--		var form_fields = document.getElementsByTagName('input')-->
+    <!--		form_fields[4].placeholder='college..';-->
+    <!--		form_fields[3].placeholder='dob...';-->
+    <!--&lt;!&ndash;		form_fields[6].placeholder='sem...';&ndash;&gt;-->
+
+</script>
+</body>

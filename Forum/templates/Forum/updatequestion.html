@@ -1,0 +1,99 @@
+{% extends 'forum/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <title>GeekHub</title>
+      <link rel="icon" type="image/png" href="{% static 'img/geekhub.png' %}"/>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" type="text/css" media="screen, projection" href="{% static 'css/stylesheet.css' %}">
+      <link rel="stylesheet" type="text/css" media="screen, projection" href="{% static 'css/colours.css' %}">
+      <link rel="stylesheet" type="text/css" media="screen, projection" href="{% static 'css/bootstrap.min.css' %}">
+      <script src="{% static 'js/bootstrap.min.js' %}"></script>
+     <script src="{% static 'js/jquery.min.js' %}"></script>
+  
+      <style>
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        .navbar {
+          margin-bottom: 0;
+          border-radius: 0;
+        }
+
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {height: 450px}
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+          padding-top: 20px;
+          background-color: #f1f1f1;
+          height: 100%;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+          background-color: #555;
+          color: white;
+          padding: 15px;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+          .sidenav {
+            height: auto;
+            padding: 15px;
+          }
+          .row.content {height:auto;}
+        }
+        .brand {
+        max-height: 40px;
+        max-width: 30%;
+        overflow: visible;
+        padding-top: 0;
+        padding-bottom: 0;
+         }
+      </style>
+</head>
+{% include "forum/message.html" %}
+<body>
+        <br>
+        <div class="post">
+            <form method="POST">
+                {% csrf_token %}
+                    <div class="topwrap">
+<!--                        <div class="userinfo pull-left">-->
+<!--                            <div class="avatar">-->
+<!--                                <img src="img/geekhub.jpg" alt="" />-->
+<!--                                <div class="status red">&nbsp;</div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div>
+                            <br><br>
+                            <h3>Question:</h3><br>
+                            <textarea name="question_content" id="desc" placeholder="{{ q.question_content }}" class="form-control" style="margin: 0px -4.5px 20px 0px; width: 100%   ; height: 141px;" required="True">{{ q.question_content }}</textarea>
+                        </div>
+                        <input>
+                            <h3>Subject:</h3><br>
+                            <input type="text" name="question_subject" class="form-control" style="font-size: 14px;" required="True" value="{{ q.question_subject }}"/>
+                        </div>
+                        <br>
+                        <div class="action-bar bottom">
+<!--                            <input type="submit" value="Submit">-->
+<!--                            <a href="#" class="button font-icon" title="newquestion" onclick="document.getElementById('At').submit();" style="width:40%;" value="Submit">-->
+<!--                                Submit-->
+<!--                            </a>-->
+                            <button type="submit" class="button font-icon"  style="width:40%;" >Submit</button>
+                        </div>
+                    </div>
+            </form>
+            <div id="site-footer-area" class="site-footer-forum">
+                <div class="chunk">
+                    <div id="foot-copyright">Geekhub</div>
+                </div>
+            </div>
+        </div>
+{% endblock content %}
+</body>
+</html>

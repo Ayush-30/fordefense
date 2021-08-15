@@ -1,0 +1,101 @@
+{% extends "Forum/base.html" %}
+{% block content %}
+
+
+<div id="wrap-subhead">
+	<div class="chunk">
+		<div id="subhead-title">
+			<h4 class="forum-title"><a href="#">Your Post</a></h4>
+		</div>
+		<div class="search-box">
+			<form method="get" id="forum-search" class="form-inline my-2 my-lg-0" action="/search">
+				<fieldset>
+					<input class="form-control mr-sm-2" type="search" name="searchquery" id="search_query" size="20" placeholder="Search this forum…" />
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit" title="Search" onclick="{% url 'search2' %}"><i class="fa fa-search"></i></button>
+					<input type="hidden" name="fid[0]" value="2" />
+					<input type="hidden" name="style" value="4" />
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+
+<br>
+
+<div class="col-sm-12 text-left">
+	<div id="wrap-body">
+		<div class="chunk-main">
+			<div class="action-bar top">
+				<a href="newquestion" class="button font-icon" title="Post a new topic">
+					<i class="fa fa-pencil"></i>Add New Topic
+				</a>
+				<div class="black"></div>
+			</div>
+			<div class="forumbg">
+				<div class="inner">
+					<ul class="topiclist">
+						<li class="header">
+							<dl class="icon">
+								<dt><div class="list-inner">Topics</div></dt>
+							</dl>
+						</li>
+					</ul>
+					<h1 class="mb-3">Posts by {{ posted_by }} ({{ q.paginator.count }})</h1>
+					<ul class="topiclist topics">
+						<h6>
+							{% for q in questions %}
+							<!-- Post haru eta hai -->
+								<li class="row bg1">
+									<dl class="icon topic_read">
+										<dt title="No unread posts">
+											<span class="ico_topic_read">
+												{% if q.posted_by.profile.image.url %}
+													<img src="{{ q.posted_by.profile.image.url }}" alt="User Name" style="width:100%">
+												{% else %}
+													<img src="{% static 'image/default.jpg' %}" alt="User Name" style="width:100%">
+												{% endif %}
+											</span>
+											<div class="list-inner">
+												<a href="viewquestion/{{ q.question_id }}/{{ q.slug }}" class="topictitle">{{ q.question_title }}
+												</a>
+												<br/>
+												by <a href="{% url 'user-posts' q.posted_by.username %}" style="color: #AA0000;" class="username-coloured">{{ q.posted_by }}
+												</a> &raquo; {{ q.date_posted }}
+												<div class="r-lastpost-container">
+													<a href="#" title="Go to last post" class="r-lastpost"><i class="fa fa-angle-right"></i></a>
+												</div>
+											</div>
+										</dt>
+		<!--							</dl>-->
+										<dd class="posts">{{ q.question_answer_count }}<dfn>Replies</dfn>
+										</dd>
+										<dd class="views">{{ q.question_view_count }}<dfn>Views</dfn>
+										</dd>
+										<dd class="lastpost"><span><dfn>Last post </dfn>
+											by <a href="{% url 'profile' %}" style="color: #AA0000;" class="username-coloured">{{ q.posted_by }}</a>
+											<a href="#" title="Go to last post" class="lastpost-last"><i class="fa fa-arrow-right"></i></a> <br />{{ q.date_posted }}</span>
+										</dd>
+									</dl>
+								</li>
+							{% endfor %}
+						</h6>
+					</ul>
+				</div>
+			</div>
+		</div>
+		{% include "forum/pagination.html" %}
+	</div>
+	<script src="js/paging.js"></script>
+</div>
+<div class="container-fluid text-center">
+  <div class="row content">
+    <div class="col-sm-12 sidenav">
+      <p><a href="#">Link</a></p>
+    </div>
+    </div>
+    </div>
+<footer class="container-fluid text-center">
+  <p>Footer Text</p>
+</footer>
+<script src="{% static 'js/bundle.js'%}"></script>
+{% endblock content %}

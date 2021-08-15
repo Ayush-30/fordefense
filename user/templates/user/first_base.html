@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <title>GeekHub</title>
+  <link rel="icon" type="image/png" href="{% static 'img/geekhub.png' %}"/>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+.centerlog {
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+}
+
+
+/* Set a style for all buttons */
+
+button {
+  background-color: #4CAF50;
+  display: inline-block;
+  font-size: 16px;
+  color: white;
+  padding: 15px 20px;
+  margin: 3px 0;
+  border: none;
+  cursor: pointer;
+  border-radius: 50px;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  border: none;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+</style>
+</head>
+<body>
+
+    <img src="{% static 'img/geekhub.png' %}" alt="GeekHub" class="centerlog" style="width:32%"><br><br>
+{% block content %}
+    {% endblock content %}
+
+</body>
+</html>

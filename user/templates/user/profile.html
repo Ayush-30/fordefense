@@ -1,0 +1,125 @@
+{% extends 'forum/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+    <title>GeekHub</title>
+ <link rel="icon" type="image/png" href="{% static 'image/geekhub.png' %}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Forum - Responsive HTML5 Template">
+    <meta name="author" content="Forum">
+    <link href="{% static 'css/library/bootstrapmin.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'css/library/stylesheet.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />
+    <link href="{% static 'css/library/colours.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />
+    <link href="{% static 'css/library/lib.css'  %}" rel="stylesheet" type="text/css" media="screen,projection" />
+    <link href="{% static 'css/library/style.css' %}" rel="stylesheet">
+
+  <style>
+    .spac {
+    align-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+    }
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;}
+    }
+    .brand {
+    max-height: 40px;
+    max-width: 30%;
+    overflow: visible;
+    padding-top: 0;
+    padding-bottom: 0;
+
+}
+
+  </style>
+</head>
+<body>
+
+
+{% include "forum/message.html" %}
+<br>
+
+<h2 style="text-align:center">Profile</h2>
+    <div class="bg-light d-flex justify-content-between">
+        <div class="pull-left">
+            <img src="{{ user.profile.user_image.url }}" alt="User Name"><hr>
+            <li class="list-group-item text-right"><span class="pull-left"><strong>Date Joined :&nbsp </strong></span>{{ user.date_joined}}</li>
+            <p style="text-align:center;">
+                {% if request.user.username == user.username %}
+                    <br>
+                    <a class="btn btn-success btn-sm" href="{% url 'editprofile' %}" class="btn btn-info btn-lg">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                    </a>
+                {% endif %}
+            </p>
+        </div>
+        <div class="pull-left justify-content-between">
+            <p class="text-secondary" style="font-size:15px;">Username :</p>
+            <p class="text-primary" style="font-size:25px;">{{ user.username }}</p>
+<!--            <hr>-->
+            <p class="text-secondary" style="font-size:15px;">Email Address :</p>
+            <p class="text-primary" style="font-size:25px;"> {{ user.email }}</p>
+<!--            <hr>-->
+            <p class="title" style="font-size:15px;">Semester = </p>
+            <p class="text-primary" style="font-size:25px;">{{ user.profile.semester }} </p>
+<!--            <hr>-->
+            <p class="title" style="font-size:15px;">Date of Birth = </p>
+            <p class="text-primary" style="font-size:25px;">{{ user.profile.date_of_birth }} </p>
+<!--            <hr>-->
+            <p class="title">Contact Number = </p>
+            <p class="text-primary" style="font-size:25px;">{{ user.profile.contact_number }} </p>
+<!--            <hr>-->
+            <p style="font-size:15px;">College Name = </p>
+            <p class="text-primary" style="font-size:25px;">{{ user.profile.college }}</p>
+
+        </div>
+        <br>
+    </div>
+<br>
+    <div id="site-footer-area" class="site-footer-forum">
+        <div class="chunk">
+            <div id="foot-copyright">Geekhub</div>
+        </div>
+    </div>
+<script src="{% static 'js/bundle.js'%}"></script>
+{% endblock content %}
+
+</body>
+</html>

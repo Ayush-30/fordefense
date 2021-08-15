@@ -1,0 +1,166 @@
+{% extends "Forum/base.html" %}
+{% block content %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>GeekHub</title>
+    <link rel="icon" type="image/png" href="{%static 'img/geekhub.png' %}"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="{% static 'css/library/bootstrapmin.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'css/library/stylesheet.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />
+    <link href="{% static 'css/library/colours.css' %}" rel="stylesheet" type="text/css" media="screen, projection" />
+    <link href="{% static 'css/library/lib.css'  %}" rel="stylesheet" type="text/css" media="screen,projection" />
+    <link href="{% static 'css/library/style.css' %}" rel="stylesheet">
+
+  <link href="css/stylesheet.css" rel="stylesheet" type="text/css" media="screen, projection" />
+  <link href="css/colours.css" rel="stylesheet" type="text/css" media="screen, projection" />
+  <script src="js/jquery.twbsPagination.js"></script>
+
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;}
+    }
+    .brand {
+    max-height: 40px;
+    max-width: 30%;
+    overflow: visible;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.notification {
+  background-color: #555;
+  color: white;
+  text-decoration: none;
+  padding: 15px 26px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.notification:hover {
+  background: red;
+}
+
+.notification .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+}
+  </style>
+</head>
+<body>
+
+<br><br>
+<div class="col-sm-12 text-left">
+	<div id="wrap-body">
+		<div class="chunk-main">
+			<li class="forumbg">
+				<div class="inner">
+					<ul class="topiclist">
+						<li class="header">
+							<dl class="icon">
+								<dt><div class="list-inner">Topics</div></dt>
+							</dl>
+						</li>
+					</ul>
+					<ul class="topiclist topics">
+						<h6>
+							<!-- Post haru eta hai -->
+				            <div id="wrap-body">
+                				<div class="chunk-main">
+                    				{% for b in q %}
+                        				<div id="p1" class="post has-profile bg2">
+                            				<div class="inner">
+                                				<dl class="postprofile" id="profile1">
+                                    				<dt class="has-profile-rank no-avatar">
+                                        				{% if b.posted_by.profile.user_image.url %}
+                                            				<img src="{{ b.posted_by.profile.user_image.url }}" alt="User Name" style="width: 40px;height: 40px;">
+                                        				{% else %}
+                                            				<img src="{% static 'img/avatar.jpg' %}" alt="User Name" style="width:100%">
+                                        				{% endif %}
+                                        				<div class="avatar-container">
+                                        				</div>
+
+                                        				<a href="{% url 'profile' %}" style="color: #AA0000;" class="username-coloured">{{ b.posted_by }}</a>
+                                    				</dt>
+													<br>
+													<br><br>
+                                    				<a href="viewquestion/{{ q.question_id }}/">{{b.question_author_semester}}</a>
+                                    				<dd class="profile-posts">No of posts: <a href="">{{ b.posted_by.profile.number_of_posts }}</a></dd>
+                                				</dl>
+                                			<div class="postbody">
+                                    			<div id="post_content1">
+                                        			<ul class="posts-buttons">																																			<li>
+                                            			<li>
+                                                			<a href="#">
+                                                    			<i class="fa fa-pencil-square-o" style="font-size: 20px;font-weight: bold;"></i><span>Edit</span>
+                                                			</a>
+                                            			</li>
+                                        			</ul>
+                                        			<p class="author">
+														<a href="viewquestion/{{ q.question_id }}/">{{b.question_subject}}</a>
+                                        			</p>
+													<a href="viewquestion/{{ b.question_id }}/">
+                                        				<div class="content" style="font-size: medium;"><strong>{{b.question_content}}</strong><hr></div>
+													</a>
+                                    			</div>
+												<dd class="profile-joined">Posted: {{ b.date_posted|timesince }} ago</dd>
+                                			</div>
+                            			</div>
+                        			</div>
+                        			<hr class="divider">
+                    			{% endfor %}
+                			</div>
+							</div>
+						</h6>
+					</ul>
+				</div>
+			</li>
+			<div class="container">
+			{% include "Forum/pagination.html" %}
+		</div>
+<script src="{% static 'js/bundle.js'%}"></script>
+
+
+{% endblock content %}
+
+
+</body>
+</html>
+
